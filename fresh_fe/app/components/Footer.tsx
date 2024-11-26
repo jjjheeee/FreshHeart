@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import FacebookIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import SitemarkIcon from './SitemarkIcon';
+import { SitemarkIcon } from '@/public/icons/CustomIcons';
 
 function Copyright() {
   return (
