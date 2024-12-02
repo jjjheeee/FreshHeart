@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     "fresh_api",
     "rest_framework",
     "user",
+    "share",
+    "calender",
+    "diary",
 ]
 
 MIDDLEWARE = [

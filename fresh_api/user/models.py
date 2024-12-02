@@ -1,12 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from share.models import TimeModel
 import uuid
 
-class TimeModel(models.Model):
-    createdAt = models.DateTimeField(auto_now_add=True)
-    updatedAt = models.DateTimeField(auto_now=True)
-    class Meta:
-        abstract = True
+
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -32,7 +29,7 @@ class UserManager(BaseUserManager):
         
         return self.create_user(email, nickname, password, **extra_fields)
 
-class User(AbstractBaseUser, TimeModel):
+class Users(AbstractBaseUser, TimeModel):
     email = models.EmailField(
         max_length=50,
         unique=True,
