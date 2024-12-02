@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "user",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -43,11 +44,12 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "fresh_api",
     "rest_framework",
-    "user",
     "share",
     "calender",
     "diary",
 ]
+
+AUTH_USER_MODEL = 'user.Users'
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -91,6 +93,9 @@ DATABASES = {
         'PASSWORD': env('DB_PASSWORD'),
         'HOST': env('DB_HOST'),
         'PORT': env('DB_PORT'),
+        'TEST': {
+            'NAME': 'test_' + env('DB_NAME'),  # 테스트용 DB 이름
+        },
     }
 }
 

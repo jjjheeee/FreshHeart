@@ -25,11 +25,10 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('user_role', 2)
-
         
         return self.create_user(email, nickname, password, **extra_fields)
 
-class Users(AbstractBaseUser, TimeModel):
+class Users(AbstractBaseUser, PermissionsMixin, TimeModel):
     email = models.EmailField(
         max_length=50,
         unique=True,
@@ -58,4 +57,5 @@ class Users(AbstractBaseUser, TimeModel):
         ]
     )
     objects = UserManager()
-    USERNAME_FIELD = 'nickname'
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['nickname']
