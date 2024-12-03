@@ -19,7 +19,7 @@ declare module '@mui/material/styles/createPalette' {
     900: string;
   }
 
-  interface PaletteColor extends ColorRange {}
+  // interface PaletteColor extends ColorRange {}
 
   interface Palette {
     baseShadow: string;
@@ -394,7 +394,7 @@ export const shape = {
   borderRadius: 8,
 };
 
-// @ts-ignore
+// @ts-expect-error: 타입 정의가 불완전한 외부 라이브러리 사용
 const defaultShadows: Shadows = [
   'none',
   'var(--template-palette-baseShadow)',

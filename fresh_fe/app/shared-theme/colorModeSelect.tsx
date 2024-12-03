@@ -15,7 +15,7 @@ export default function ColorModeSelect(props: SelectProps) {
         setMode(event.target.value as 'system' | 'light' | 'dark')
       }
       SelectDisplayProps={{
-        // @ts-ignore
+        // @ts-expect-error: 타입 정의가 불완전한 외부 라이브러리 사용
         'data-screenshot': 'toggle-mode',
       }}
       {...props}

@@ -8,11 +8,10 @@ import Latest from './components/Latest';
 import Footer from './components/Footer';
 import AppTheme from './shared-theme/AppTheme';
 
-export default function Blog(props: { disableCustomTheme?: boolean }) {
+const BlogContent = ({ disableCustomTheme }: { disableCustomTheme?: boolean }) => {
   return (
-    <AppTheme {...props}>
+    <AppTheme disableCustomTheme={disableCustomTheme}>
       <CssBaseline enableColorScheme />
-
       <AppAppBar />
       <Container
         maxWidth="lg"
@@ -25,4 +24,8 @@ export default function Blog(props: { disableCustomTheme?: boolean }) {
       </Container>
     </AppTheme>
   );
+};
+
+export default function Blog() {
+  return <BlogContent />;
 }

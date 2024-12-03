@@ -14,6 +14,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { SitemarkIcon } from '@/public/icons/CustomIcons';
 import ColorModeIconDropdown from '../shared-theme/colorModelconDropdown';
 import { useRouter } from 'next/navigation';
+import type {} from '@mui/material/themeCssVarsAugmentation';
 
 export default function AppAppBar() {
   const router = useRouter();

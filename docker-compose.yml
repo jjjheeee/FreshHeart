@@ -1,0 +1,52 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:14-alpine
+    container_name: fresh_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./fresh_api/.env
+    ports:
+      - "5432:5432"
+
+  api:
+    build: 
+      context: ./fresh_api
+      dockerfile: Dockerfile
+    container_name: fresh_api
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./fresh_api:/app/fresh_api
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./fresh_api/.env
+    depends_on:
+      - db
+    environment:
+      - TZ=Asia/Seoul
+      - DJAOGO_ENV=development
+
+  web:
+    build:
+      context: ./fresh_fe
+      dockerfile: Dockerfile.local
+    container_name: fresh_fe
+    volumes:
+      - ./fresh_fe:/app/fresh_fe
+      - /app/fresh_fe/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+
+networks:
+  default:
+    name: fresh_network

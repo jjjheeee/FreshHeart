@@ -2,10 +2,17 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+from dotenv import load_dotenv
 
 def main():
     """Run administrative tasks."""
+    
+    # 테스트 실행 시 .env.test 사용
+    if 'test' in sys.argv:
+        load_dotenv('.env.dev')
+    else:
+        load_dotenv('.env')  # 기본 .env 로드
+    
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "fresh_api.settings")
     try:
         from django.core.management import execute_from_command_line

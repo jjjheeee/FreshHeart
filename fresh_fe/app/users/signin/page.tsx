@@ -7,9 +7,9 @@ import Content from './Content';
 import AppTheme from '@/app/shared-theme/AppTheme';
 import ColorModeSelect from '@/app/shared-theme/colorModeSelect';
 
-export default function SignInSide(props: { disableCustomTheme?: boolean }) {
+const SignInContent = ({ disableCustomTheme }: { disableCustomTheme?: boolean }) => {
   return (
-    <AppTheme {...props}>
+    <AppTheme disableCustomTheme={disableCustomTheme}>
       <CssBaseline enableColorScheme />
       <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
       <Stack
@@ -45,24 +45,18 @@ export default function SignInSide(props: { disableCustomTheme?: boolean }) {
           sx={{
             justifyContent: 'center',
             gap: { xs: 6, sm: 12 },
-            p: 2,
-            mx: 'auto',
+            p: { xs: 2, sm: 4 },
+            m: 'auto',
           }}
         >
-          <Stack
-            direction={{ xs: 'column-reverse', md: 'row' }}
-            sx={{
-              justifyContent: 'center',
-              gap: { xs: 6, sm: 12 },
-              p: { xs: 2, sm: 4 },
-              m: 'auto',
-            }}
-          >
-            <Content />
-            <SignInCard />
-          </Stack>
+          <Content />
+          <SignInCard />
         </Stack>
       </Stack>
     </AppTheme>
   );
+};
+
+export default function SignInSide() {
+  return <SignInContent />;
 }
