@@ -1,13 +1,13 @@
 version: '3.9'
 
 services:
-  db:
+  fresh_db:
     image: postgres:14-alpine
     container_name: fresh_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file:
-      - ./fresh_api/.env
+      - ./fresh_api/.env.prod
     ports:
       - "5432:5432"
 
@@ -22,12 +22,12 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - ./fresh_api/.env
+      - ./fresh_api/.env.prod
     depends_on:
-      - db
+      - fresh_db
     environment:
       - TZ=Asia/Seoul
-      - DJAOGO_ENV=production
+      - DJANGO_ENV=production
 
   web:
     build:

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Users
+from django.contrib.auth import authenticate
 
 class SignupUserSerializer(serializers.ModelSerializer):
     
@@ -22,5 +23,24 @@ class SignupUserSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = model = Users
-        fields = ('email','password','nickname','uuid')
+        model = Users
+        fields = ('email', 'password', 'nickname', 'uuid')
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'uuid': {'read_only': True},
+            'nickname': {'read_only': True}
+        }
+    
+    def validate(self, data):
+        print("validate 메서드 실행")
+        print(f"검증할 데이터: {data}")
+
+        user = authenticate(email=data['email'], password=data['password'])
+        if user and user.is_active:
+            return user
+        raise serializers.ValidationError("잘못된 로그인 정보입니다.")
+    
+    def update(self, instance, validated_data):
+        if 'password' in validated_data:
+            instance.set_password(validated_data.pop('password'))
+        return super().update(instance, validated_data)
