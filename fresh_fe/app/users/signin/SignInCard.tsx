@@ -16,6 +16,14 @@ import { styled } from '@mui/material/styles';
 import ForgotPassword from './ForgotPassword';
 import { SitemarkIcon, GoogleIcon, FacebookIcon } from '@/public/icons/CustomIcons';
 
+import { axiosInstance } from '@/public/network/AxiosInterceptor';
+import { setCookie } from '@/public/utils/setToken';
+import { useDispatch } from 'react-redux';
+import { setAccessToken } from '@/store/authSlice';
+import { useRouter } from '@/node_modules/next/navigation';
+import { useState, useEffect } from 'react';
+import { setUser } from '@/store/user';
+
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -35,11 +43,14 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 export default function SignInCard() {
-  const [emailError, setEmailError] = React.useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-  const [open, setOpen] = React.useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
+  const [open, setOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -49,16 +60,35 @@ export default function SignInCard() {
     setOpen(false);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (emailError || passwordError) {
-      event.preventDefault();
       return;
     }
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    try {
+      const loginResponse = await axiosInstance.post(`/user/token`, data);
+      if (loginResponse.status === 200) {
+        const { access, refresh } = loginResponse.data;
+        const {email, nickname, isLogin} = loginResponse.data['user']
+        dispatch(setUser({
+          email:email,
+          nickname:nickname,
+          isLogin:isLogin
+        }))
+        //refresh 쿠키 저장
+        setCookie('refreshToken', refresh, {
+          path: '/',
+        });
+
+        //access 저장 (redux-persist)
+        dispatch(setAccessToken(access));
+        router.push('/');
+      }
+    } catch (e) {
+      alert('이메일 혹은 비밀번호가 일치하지 않습니다.');
+    }
   };
 
   const validateInputs = () => {

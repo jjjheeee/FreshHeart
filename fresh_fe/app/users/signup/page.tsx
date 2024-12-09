@@ -17,6 +17,8 @@ import { styled } from '@mui/material/styles';
 import AppTheme from '@/app/shared-theme/AppTheme';
 import { SitemarkIcon, GoogleIcon, FacebookIcon } from '@/public/icons/CustomIcons';
 import ColorModeSelect from '@/app/shared-theme/colorModeSelect';
+import { axiosInstance } from '@/public/network/AxiosInterceptor';
+import { useRouter } from '@/node_modules/next/navigation';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -61,6 +63,9 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 const SignUpContent = ({ disableCustomTheme }: { disableCustomTheme?: boolean }) => {
+  const router = useRouter();
+
+
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
@@ -71,7 +76,7 @@ const SignUpContent = ({ disableCustomTheme }: { disableCustomTheme?: boolean })
   const validateInputs = () => {
     const email = document.getElementById('email') as HTMLInputElement;
     const password = document.getElementById('password') as HTMLInputElement;
-    const name = document.getElementById('name') as HTMLInputElement;
+    const nickname = document.getElementById('nickname') as HTMLInputElement;
 
     let isValid = true;
 
@@ -93,7 +98,7 @@ const SignUpContent = ({ disableCustomTheme }: { disableCustomTheme?: boolean })
       setPasswordErrorMessage('');
     }
 
-    if (!name.value || name.value.length < 1) {
+    if (!nickname.value || nickname.value.length < 1) {
       setNameError(true);
       setNameErrorMessage('Name is required.');
       isValid = false;
@@ -105,18 +110,22 @@ const SignUpContent = ({ disableCustomTheme }: { disableCustomTheme?: boolean })
     return isValid;
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (nameError || emailError || passwordError) {
-      event.preventDefault();
       return;
     }
     const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get('name'),
-      lastName: data.get('lastName'),
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    try {
+      const response = await axiosInstance.post(`/user/signup`, data);
+      if (response.status === 201) {
+        alert('회원가입 되었습니다.');
+        router.push('/users/signin');
+      }
+    } catch (e) {
+      alert('이미 존재하는 이메일입니다.');
+    }
+
   };
 
   return (
@@ -139,13 +148,13 @@ const SignUpContent = ({ disableCustomTheme }: { disableCustomTheme?: boolean })
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
           >
             <FormControl>
-              <FormLabel htmlFor="name">Full name</FormLabel>
+              <FormLabel htmlFor="name">Nick name</FormLabel>
               <TextField
-                autoComplete="name"
-                name="name"
+                autoComplete="nickname"
+                name="nickname"
                 required
                 fullWidth
-                id="name"
+                id="nickname"
                 placeholder="Jon Snow"
                 error={nameError}
                 helperText={nameErrorMessage}
@@ -219,7 +228,7 @@ const SignUpContent = ({ disableCustomTheme }: { disableCustomTheme?: boolean })
             <Typography sx={{ textAlign: 'center' }}>
               Already have an account?{' '}
               <Link
-                href="/material-ui/getting-started/templates/sign-in/"
+                href="/signin/"
                 variant="body2"
                 sx={{ alignSelf: 'center' }}
               >

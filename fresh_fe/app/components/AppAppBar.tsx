@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { alpha, styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
+import { Box } from '@/node_modules/@mui/material/index';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
@@ -15,11 +15,16 @@ import { SitemarkIcon } from '@/public/icons/CustomIcons';
 import ColorModeIconDropdown from '../shared-theme/colorModelconDropdown';
 import { useRouter } from 'next/navigation';
 import type {} from '@mui/material/themeCssVarsAugmentation';
+import { useSelector, useDispatch } from '@/node_modules/react-redux/dist/react-redux';
+import { handleLogout } from '@/public/utils/functions';
 
 export default function AppAppBar() {
+  const dispatch = useDispatch();
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
 
+  const userInfo = useSelector((state: any) => state.user);
+  console.log(userInfo)
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
@@ -67,12 +72,25 @@ export default function AppAppBar() {
               alignItems: 'center',
             }}
           >
-            <Button onClick={() => router.push('/users/signin')} color="primary" variant="text" size="small">
-              Sign in
-            </Button>
-            <Button onClick={() => router.push('/users/signup')} color="primary" variant="contained" size="small">
-              Sign up
-            </Button>
+            {userInfo.user.isLogin ? (
+              <div>
+                <Button onClick={() => router.push('/users/signin')} color="primary" variant="text" size="small">
+                {userInfo.user.nickname}님
+                </Button>
+                <Button onClick={() => handleLogout(dispatch,true,router)} color="primary" variant="text" size="small">
+                  logout
+                </Button>
+              </div>
+            ) : (
+              <div>
+                <Button onClick={() => router.push('/users/signin')} color="primary" variant="text" size="small">
+                  Sign in
+                </Button>
+                <Button onClick={() => router.push('/users/signup')} color="primary" variant="contained" size="small">
+                  Sign up
+                </Button>
+              </div>
+            )}
             <ColorModeIconDropdown />
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
