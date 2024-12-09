@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
     "fresh_api",
     "share",
     "calender",
@@ -84,6 +85,7 @@ REST_FRAMEWORK = {
 AUTH_USER_MODEL = 'user.Users'
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -143,6 +145,16 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
 
+# 특정 도메인만 허용할 경우
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+# 자격 증명(쿠키, 인증 헤더 등) 허용
+CORS_ALLOW_CREDENTIALS = True
+
+# 모든 도메인 허용이 필요한 경우 (개발 환경에서만 사용 권장)
+# CORS_ALLOW_ALL_ORIGINS = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/

@@ -5,16 +5,16 @@ from rest_framework.permissions import AllowAny,IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate, login, logout
-from .serializers import SignupUserSerializer, UserSerializer
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.http import HttpResponse
+from .serializers import SignupUserSerializer, UserSerializer, CustomTokenObtainPairSerializer
 from .models import Users
 
 class UserLoginAPI(APIView):
 
     def post(self, request, *args, **kwargs):
         
-        serializer = TokenObtainPairSerializer(data=request.data)
+        serializer = CustomTokenObtainPairSerializer(data=request.data)
         if serializer.is_valid():
             
             response_data = serializer.validated_data
@@ -58,3 +58,21 @@ def signup_api(request):
             'message': serializer.errors
         }
         return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def logout_api(request):
+    response_data = {}
+    
+    cookie_value = request.COOKIES.get('refreshToken',None)
+    
+    if cookie_value is not None:
+       response = HttpResponse(status=200)
+       response.delete_cookie('refreshToken')
+       response_data['message'] = '삭제 성공'
+       return Response(response_data, status=status.HTTP_200_OK)
+    else:
+        response_data['message'] = 'logout api에서 오류 발생'
+        response_data['get refreshToken'] = cookie_value
+        return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
+    

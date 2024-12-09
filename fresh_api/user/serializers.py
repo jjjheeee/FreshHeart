@@ -1,6 +1,24 @@
 from rest_framework import serializers
 from .models import Users
 from django.contrib.auth import authenticate
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        
+        # 유저 정보 추가
+        data['user'] = {
+            'nickname': self.user.nickname,
+            'email': self.user.email,
+            'isLogin': True
+            # 필요한 다른 유저 필드들 추가
+        }
+        
+        return data
+
+
 
 class SignupUserSerializer(serializers.ModelSerializer):
     
