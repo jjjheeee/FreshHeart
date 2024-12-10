@@ -24,7 +24,7 @@ export default function AppAppBar() {
   const [open, setOpen] = React.useState(false);
 
   const userInfo = useSelector((state: any) => state.user);
-  console.log(userInfo)
+
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
@@ -126,16 +126,33 @@ export default function AppAppBar() {
                 <MenuItem>FAQ</MenuItem>
                 <MenuItem>Blog</MenuItem>
                 <Divider sx={{ my: 3 }} />
-                <MenuItem>
-                  <Button onClick={() => router.push('/users/signup')} color="primary" variant="contained" fullWidth>
-                    Sign up
-                  </Button>
-                </MenuItem>
-                <MenuItem>
-                  <Button onClick={() => router.push('/users/signin')} color="primary" variant="outlined" fullWidth>
-                    Sign in
-                  </Button>
-                </MenuItem>
+                {userInfo.user.isLogin ? (
+                  <div>
+                    <MenuItem>
+                      <Button onClick={() => router.push('/users/signin')} color="primary" variant="text" size="small">
+                        {userInfo.user.nickname}님
+                      </Button>
+                    </MenuItem>
+                    <MenuItem>
+                      <Button onClick={() => handleLogout(dispatch,true,router)} color="primary" variant="text" size="small">
+                        logout
+                      </Button>
+                    </MenuItem>
+                  </div>
+                ):(
+                  <div>
+                    <MenuItem>
+                      <Button onClick={() => router.push('/users/signup')} color="primary" variant="contained" fullWidth>
+                        Sign up
+                      </Button>
+                    </MenuItem>
+                    <MenuItem>
+                      <Button onClick={() => router.push('/users/signin')} color="primary" variant="outlined" fullWidth>
+                        Sign in
+                      </Button>
+                    </MenuItem>
+                  </div>
+                )}
               </Box>
             </Drawer>
           </Box>

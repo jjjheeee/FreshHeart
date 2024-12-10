@@ -7,6 +7,7 @@ import MainContent from './components/MainContent';
 import Latest from './components/Latest';
 import Footer from './components/Footer';
 import AppTheme from './shared-theme/AppTheme';
+import Calendar from './components/Calender';
 
 const BlogContent = ({ disableCustomTheme }: { disableCustomTheme?: boolean }) => {
   return (
@@ -19,6 +20,7 @@ const BlogContent = ({ disableCustomTheme }: { disableCustomTheme?: boolean }) =
         sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}
       >
         <Latest />
+        <Calendar/>
         <MainContent />
         <Footer />
       </Container>

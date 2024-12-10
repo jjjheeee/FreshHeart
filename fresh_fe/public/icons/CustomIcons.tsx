@@ -1,7 +1,7 @@
 import * as React from 'react';
 import SvgIcon from '@mui/material/SvgIcon';
 
-export function SitemarkIcon() {
+export const SitemarkIcon = () => {
   return (
     <SvgIcon sx={{ height: 21, width: 100, mr: 2 }}>
       <svg
@@ -52,7 +52,7 @@ export function SitemarkIcon() {
   );
 }
 
-export function FacebookIcon() {
+export const FacebookIcon = () => {
   return (
     <SvgIcon>
       <svg
@@ -88,7 +88,7 @@ export function FacebookIcon() {
   );
 }
 
-export function GoogleIcon() {
+export const GoogleIcon = () => {
   return (
     <SvgIcon>
       <svg
@@ -113,6 +113,63 @@ export function GoogleIcon() {
         <path
           d="M8 3.18545C9.17818 3.18545 10.2255 3.59273 11.0618 4.37818L13.3527 2.08727C11.9636 0.792727 10.16 0 8 0C4.87273 0 2.17455 1.79636 0.858182 4.41455L3.52 6.48C4.15273 4.58909 5.92 3.18545 8 3.18545Z"
           fill="#EA4335"
+        />
+      </svg>
+    </SvgIcon>
+  );
+}
+
+export const Like = () => {
+  return (
+    <SvgIcon>
+        <svg 
+          width="24" 
+          height="24" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path 
+            d="M7 11V19H5V11H7ZM13.1 19C13.6 19 14 18.6 14 18.1V11.2L15.2 12.4C15.6 12.8 16.2 13 16.8 13C17.4 13 17.9 12.8 18.3 12.4L19 11.7L13.8 6.5C13.3 6 12.6 5.7 11.9 5.7H9C8.5 5.7 8 6.2 8 6.7V17.3C8 18.3 8.9 19.2 9.9 19.2H13.1V19Z" 
+            fill="currentColor"
+          />
+        </svg>
+    </SvgIcon>
+  );
+}
+
+export const CheerUp = () => {
+  return (
+    <SvgIcon>
+      <svg 
+        width="24" 
+        height="24" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path 
+          d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM15.5 11C16.33 11 17 10.33 17 9.5C17 8.67 16.33 8 15.5 8C14.67 8 14 8.67 14 9.5C14 10.33 14.67 11 15.5 11ZM8.5 11C9.33 11 10 10.33 10 9.5C10 8.67 9.33 8 8.5 8C7.67 8 7 8.67 7 9.5C7 10.33 7.67 11 8.5 11ZM12 17.5C14.33 17.5 16.31 16.04 17.11 14H6.89C7.69 16.04 9.67 17.5 12 17.5Z" 
+          fill="currentColor"
+        />
+      </svg>
+    </SvgIcon>
+  );
+}
+
+export const Joy = () => {
+  return (
+    <SvgIcon>
+      <svg 
+        width="24" 
+        height="24" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path 
+          d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM15.5 11C16.33 11 17 10.33 17 9.5C17 8.67 16.33 8 15.5 8C14.67 8 14 8.67 14 9.5C14 10.33 14.67 11 15.5 11ZM8.5 11C9.33 11 10 10.33 10 9.5C10 8.67 9.33 8 8.5 8C7.67 8 7 8.67 7 9.5C7 10.33 7.67 11 8.5 11ZM12 17.5C14.33 17.5 16.31 16.04 17.11 14H6.89C7.69 16.04 9.67 17.5 12 17.5Z" 
+          fill="currentColor"
         />
       </svg>
     </SvgIcon>
